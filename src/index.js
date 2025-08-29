@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import {DB_NAME} from "./constants.js"
 import connectDB from "./db/index.js";
+import { application } from "express";
 
 dotenv.config({
     path: "./env"
@@ -11,7 +12,16 @@ dotenv.config({
 
 
 
-connectDB();
+connectDB()
+.then(()=>{
+    app.listen(process.env.PORT,()=>{
+        console.log(`Server started at http://localhost:${process.env.PORT}`)
+    })
+})
+.catch((error)=>{
+    console.error("Error connecting to MongoDB:", error)
+    throw error
+})
 
 
 
